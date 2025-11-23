@@ -1,36 +1,1133 @@
-/* escapecouple Styles */
+/* ESCAPE TOGETHER - Theme Cluedo / Manoir Mysterieux */
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+    --bg-dark: #1a0f0a;
+    --bg-card: #2d1f1a;
+    --bg-panel: #3d2a1f;
+    --primary: #c9a227;
+    --primary-dark: #a68420;
+    --secondary: #8b2942;
+    --danger: #9b1b30;
+    --warning: #d4a84b;
+    --success: #2d5a3d;
+    --text: #f4e4c9;
+    --text-dim: #b8a082;
+    --border: #5c4033;
+    --gold: #d4af37;
+    --burgundy: #722f37;
+    --green-felt: #2d5a3d;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background: #f5f5f5;
 }
 
-.container {
-    max-width: 800px;
-    margin: 2rem auto;
+body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--bg-dark);
+    background-image:
+        radial-gradient(ellipse at top, rgba(201, 162, 39, 0.05) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L30 60M0 30L60 30' stroke='%23ffffff' stroke-width='0.5' stroke-opacity='0.03'/%3E%3C/svg%3E");
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===========================================
+   HOME PAGE - Hall du Manoir
+   =========================================== */
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background:
+        linear-gradient(180deg, rgba(26, 15, 10, 0.9) 0%, rgba(45, 31, 26, 0.95) 100%),
+        radial-gradient(ellipse at center, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
 }
 
-h1 {
-    color: #333;
+.logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.logo::before {
+    content: "🕵️";
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.logo h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(212, 175, 55, 0.3);
+    letter-spacing: 0.3rem;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 0.5rem;
+}
+
+.logo h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.5rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.subtitle {
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+.home-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 320px;
+}
+
+.join-section {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.room-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: 'Cinzel', serif;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+    text-align: center;
+}
+
+.room-input::placeholder {
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--text-dim);
+    font-family: 'Crimson Text', serif;
+}
+
+.room-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.btn {
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(180deg, var(--gold) 0%, var(--primary-dark) 100%);
+    color: var(--bg-dark);
+    border-color: var(--gold);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(180deg, #e0c040 0%, var(--gold) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-secondary {
+    background: var(--burgundy);
+    color: var(--text);
+    border-color: var(--secondary);
+}
+
+.btn-secondary:hover {
+    background: #8b3a4a;
+    border-color: #a04050;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--text);
+    border-color: #7a1525;
+}
+
+.btn-warning {
+    background: var(--warning);
+    color: var(--bg-dark);
+    border-color: var(--primary-dark);
+}
+
+.error {
+    color: #ff6b6b;
+    background: rgba(155, 27, 48, 0.2);
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    border: 1px solid var(--danger);
+    font-style: italic;
+}
+
+.instructions {
+    margin-top: 3rem;
+    padding: 1.5rem 2rem;
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.instructions::before {
+    content: "📜";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    background: var(--bg-card);
+    padding: 0 0.5rem;
+}
+
+.instructions h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.instructions ul {
+    list-style: none;
+}
+
+.instructions li {
+    padding: 0.6rem 0;
+    padding-left: 1.8rem;
+    position: relative;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(92, 64, 51, 0.3);
+}
+
+.instructions li:last-child {
+    border-bottom: none;
+}
+
+.instructions li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+/* ===========================================
+   WAITING ROOM - Salon d'attente
+   =========================================== */
+
+.waiting-room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(45, 31, 26, 1) 0%, var(--bg-dark) 100%);
+}
+
+.waiting-room h1 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.room-code-display {
+    background: var(--bg-card);
+    padding: 2rem 3rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 3px solid var(--gold);
+    box-shadow:
+        0 0 20px rgba(212, 175, 55, 0.2),
+        inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.room-code-display p {
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+.room-code-display .code {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.8rem;
+    color: var(--gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.waiting-text {
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 2rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.role-info {
+    font-family: 'Cinzel', serif;
+    color: var(--secondary);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* ===========================================
+   GAME ROOM - Salle de jeu
+   =========================================== */
+
+.game-room {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(ellipse at top, rgba(45, 90, 61, 0.1) 0%, transparent 50%),
+        var(--bg-dark);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-card) 100%);
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.puzzle-progress {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 1.1rem;
+}
+
+.player-badge {
+    font-family: 'Cinzel', serif;
+    padding: 0.5rem 1.2rem;
+    background: var(--burgundy);
+    border: 2px solid var(--secondary);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.room-info {
+    color: var(--text-dim);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+}
+
+/* ===========================================
+   PUZZLES - Style General
+   =========================================== */
+
+.puzzle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+.puzzle h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.puzzle h2::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0.5rem auto 0;
+}
+
+.player-view {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    max-width: 600px;
+    width: 100%;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.view-label {
+    font-family: 'Cinzel', serif;
+    background: var(--burgundy);
+    color: var(--text);
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    border: 1px solid var(--secondary);
+    font-size: 0.9rem;
+}
+
+.instruction {
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    padding-left: 1rem;
+}
+
+.hint {
+    color: var(--warning);
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.hint::before {
+    content: "💡 ";
+}
+
+/* ===========================================
+   PUZZLE 1: CODE COULEUR
+   =========================================== */
+
+.symbols-display {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--bg-panel);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.symbol {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 0.5rem;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.symbol-red { background: linear-gradient(135deg, #c62828 0%, #8b0000 100%); color: white; }
+.symbol-blue { background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%); color: white; }
+.symbol-green { background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: white; }
+.symbol-yellow { background: linear-gradient(135deg, #f9a825 0%, #f57f17 100%); color: #1a0f0a; }
+.symbol-purple { background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); color: white; }
+.symbol-orange { background: linear-gradient(135deg, #ef6c00 0%, #e65100 100%); color: white; }
+
+.legend-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-panel);
+    border-radius: 4px;
+    border-left: 4px solid var(--gold);
+}
+
+.legend-symbol {
+    font-weight: 600;
+    min-width: 80px;
+    color: var(--text);
+}
+
+.legend-number {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.code-entry {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.code-entry input {
+    flex: 1;
+    padding: 0.75rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.5rem;
+    background: var(--bg-dark);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--gold);
+}
+
+.code-entry input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.attempts {
+    margin-top: 1rem;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+/* ===========================================
+   PUZZLE 2: LABYRINTHE
+   =========================================== */
+
+.maze-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--border);
+    padding: 3px;
+    border-radius: 4px;
+    margin: 1rem auto;
+    border: 3px solid var(--gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.maze-row {
+    display: flex;
+    gap: 2px;
+}
+
+.maze-cell {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 2px;
+    font-family: 'Cinzel', serif;
+}
+
+.maze-cell.empty {
+    background: var(--green-felt);
+}
+
+.maze-cell.wall {
+    background: linear-gradient(135deg, #4a3728 0%, #2d1f1a 100%);
+    border: 1px solid #5c4033;
+}
+
+.maze-cell.player {
+    background: var(--gold);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    font-size: 1.2rem;
+}
+
+.maze-cell.exit {
+    background: linear-gradient(135deg, var(--success) 0%, #1e4a2e 100%);
+    color: var(--gold);
+    border: 2px solid var(--gold);
+}
+
+.maze-cell.trap {
+    background: linear-gradient(135deg, var(--danger) 0%, #5a0f1a 100%);
+    color: white;
+    font-size: 1.1rem;
+}
+
+.trap-view .maze-cell.empty {
+    background: var(--green-felt);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.horizontal-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-move {
+    width: 55px;
+    height: 55px;
+    font-size: 1.5rem;
+    font-family: 'Cinzel', serif;
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-card) 100%);
+    color: var(--gold);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-move:hover {
+    background: linear-gradient(180deg, var(--gold) 0%, var(--primary-dark) 100%);
+    color: var(--bg-dark);
+    border-color: var(--gold);
+}
+
+.btn-move:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===========================================
+   PUZZLE 3: FILS
+   =========================================== */
+
+.wires-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.wire {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.wire::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.wire:hover:not(:disabled) {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.wire:disabled {
+    cursor: not-allowed;
+}
+
+.wire-red { background: linear-gradient(90deg, #c62828 0%, #b71c1c 100%); color: white; }
+.wire-blue { background: linear-gradient(90deg, #1565c0 0%, #0d47a1 100%); color: white; }
+.wire-yellow { background: linear-gradient(90deg, #f9a825 0%, #f57f17 100%); color: #1a0f0a; }
+.wire-green { background: linear-gradient(90deg, #2e7d32 0%, #1b5e20 100%); color: white; }
+.wire-white { background: linear-gradient(90deg, #eceff1 0%, #cfd8dc 100%); color: #1a0f0a; }
+
+.wire.striped {
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(0, 0, 0, 0.15) 8px,
+        rgba(0, 0, 0, 0.15) 16px
+    );
+}
+
+.wire.cut {
+    opacity: 0.3;
+    text-decoration: line-through;
+    transform: scaleY(0.8);
+}
+
+.rules-display {
+    background: var(--bg-panel);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 2px solid var(--border);
+}
+
+.rules-display h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
     margin-bottom: 1rem;
 }
 
-button {
-    background: #5E85B8;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
+.rules-display ol {
+    padding-left: 1.5rem;
 }
 
-button:hover {
-    background: #4A6FA5;
+.rules-display li {
+    padding: 0.6rem 0;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1px solid rgba(92, 64, 51, 0.3);
+}
+
+.rules-display li:last-child {
+    border-bottom: none;
+}
+
+.rules-display li.done {
+    text-decoration: line-through;
+    opacity: 0.4;
+    color: var(--text-dim);
+}
+
+.cut-progress {
+    color: var(--text-dim);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* ===========================================
+   PUZZLE 4: MESSAGE CODE
+   =========================================== */
+
+.encrypted-message {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.4rem;
+    color: var(--gold);
+    text-align: center;
+    padding: 2rem;
+    background: var(--bg-dark);
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 3px solid var(--border);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.decryption-key {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 0.4rem;
+    margin: 1rem 0;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+}
+
+.key-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.4rem;
+    background: var(--bg-panel);
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+}
+
+.key-item .encrypted {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+.key-item .decoded {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.answer-entry {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.answer-entry input {
+    flex: 1;
+    padding: 0.75rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    background: var(--bg-dark);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--gold);
+}
+
+.answer-entry input:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+/* ===========================================
+   PUZZLE 5: INTERRUPTEURS
+   =========================================== */
+
+.switches-panel {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--bg-panel);
+    border-radius: 8px;
+    border: 2px solid var(--border);
+}
+
+.switch {
+    width: 60px;
+    height: 85px;
+    border: 3px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.switch.off {
+    background: linear-gradient(180deg, #4a3728 0%, #2d1f1a 100%);
+    color: var(--text-dim);
+    box-shadow:
+        inset 0 -8px 0 #1a0f0a,
+        0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.switch.on {
+    background: linear-gradient(180deg, var(--gold) 0%, var(--primary-dark) 100%);
+    color: var(--bg-dark);
+    box-shadow:
+        inset 0 8px 0 rgba(255, 255, 255, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.switch:hover {
+    transform: scale(1.05);
+}
+
+.lights-panel {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.lights-panel h4 {
+    font-family: 'Cinzel', serif;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+}
+
+.lights {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.light {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    transition: all 0.3s;
+    border: 3px solid var(--border);
+}
+
+.light.off {
+    background: linear-gradient(180deg, #3d2a1f 0%, #1a0f0a 100%);
+    color: var(--text-dim);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.light.on {
+    background: radial-gradient(circle at 30% 30%, #ffe082, var(--gold), var(--primary-dark));
+    color: var(--bg-dark);
+    box-shadow:
+        0 0 20px var(--gold),
+        0 0 40px rgba(212, 175, 55, 0.5);
+}
+
+.lights-panel.target .light.on {
+    background: radial-gradient(circle at 30% 30%, #ffcc80, var(--warning), #e65100);
+    box-shadow:
+        0 0 20px var(--warning),
+        0 0 40px rgba(212, 168, 75, 0.5);
+}
+
+.effect-hint {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(212, 168, 75, 0.1);
+    border: 2px solid var(--warning);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.effect-hint h4 {
+    font-family: 'Cinzel', serif;
+    color: var(--warning);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ===========================================
+   RESULTATS DES PUZZLES
+   =========================================== */
+
+.puzzle-result {
+    text-align: center;
+    padding: 2rem;
+}
+
+.puzzle-result.success h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.puzzle-result.success h3::before {
+    content: "🏆 ";
+}
+
+.puzzle-result.failure h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--danger);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.puzzle-result.failure h3::before {
+    content: "💀 ";
+}
+
+.puzzle-result.failure p {
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* ===========================================
+   PAGE DE VICTOIRE
+   =========================================== */
+
+.victory-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-dark) 0%, #2d1f1a 100%);
+}
+
+.victory-page h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    color: var(--gold);
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(212, 175, 55, 0.5);
+    margin-bottom: 2rem;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.victory-page h1::before {
+    content: "🎉 ";
+}
+
+.victory-page h1::after {
+    content: " 🎉";
+}
+
+@keyframes glow {
+    from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.3); }
+    to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.7); }
+}
+
+.victory-text {
+    max-width: 400px;
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid var(--gold);
+}
+
+.victory-text p {
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.victory-page .btn {
+    margin-top: 2rem;
+}
+
+/* ===========================================
+   RESPONSIVE
+   =========================================== */
+
+@media (max-width: 600px) {
+    .logo h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.15rem;
+    }
+
+    .logo h2 {
+        font-size: 0.9rem;
+        letter-spacing: 0.3rem;
+    }
+
+    .room-code-display .code {
+        font-size: 2rem;
+        letter-spacing: 0.4rem;
+    }
+
+    .game-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+
+    .symbol {
+        width: 75px;
+        height: 75px;
+        font-size: 0.7rem;
+    }
+
+    .maze-cell {
+        width: 32px;
+        height: 32px;
+    }
+
+    .encrypted-message {
+        font-size: 1.4rem;
+        letter-spacing: 0.2rem;
+    }
+
+    .switch {
+        width: 50px;
+        height: 70px;
+    }
+
+    .light {
+        width: 42px;
+        height: 42px;
+    }
+
+    .btn-move {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Scrollbar custom */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
 }
