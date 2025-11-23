@@ -1,0 +1,17 @@
+# Pre-commit hooks for Elm
+# Install: pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: elm-format
+        name: elm-format
+        entry: elm-format
+        language: system
+        files: \.elm$
+        args: [--yes]
+      
+      - id: elm-review
+        name: elm-review
+        entry: elm-review
+        language: system
+        pass_filenames: false
