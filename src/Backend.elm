@@ -82,7 +82,7 @@ update msg model =
 updateFromFrontend : SessionId -> ClientId -> ToBackend -> BackendModel -> ( BackendModel, Cmd BackendMsg )
 updateFromFrontend _ clientId msg model =
     case msg of
-        CreateRoom ->
+        CreateRoom requestedRole ->
             let
                 roomCode =
                     generateRoomCode model.nextSeed
@@ -90,10 +90,18 @@ updateFromFrontend _ clientId msg model =
                 puzzles =
                     generatePuzzles model.nextSeed
 
+                ( p1, p2 ) =
+                    case requestedRole of
+                        Player1 ->
+                            ( Just clientId, Nothing )
+
+                        Player2 ->
+                            ( Nothing, Just clientId )
+
                 newRoom =
                     { code = roomCode
-                    , player1 = Just clientId
-                    , player2 = Nothing
+                    , player1 = p1
+                    , player2 = p2
                     , gameState = WaitingForPlayers
                     , currentPuzzle = 1
                     , puzzleStates = puzzles
@@ -104,66 +112,72 @@ updateFromFrontend _ clientId msg model =
                 | rooms = Dict.insert roomCode newRoom model.rooms
                 , nextSeed = model.nextSeed + 1
               }
-            , sendToFrontend clientId (RoomCreated roomCode Player1)
+            , sendToFrontend clientId (RoomCreated roomCode requestedRole)
             )
 
-        JoinRoom roomCode ->
+        JoinRoom roomCode requestedRole ->
             case Dict.get (String.toUpper roomCode) model.rooms of
                 Nothing ->
-                    ( model, sendToFrontend clientId (RoomError "Room not found") )
+                    ( model, sendToFrontend clientId (RoomError "Salle introuvable") )
 
                 Just room ->
-                    if room.player1 == Nothing then
+                    let
+                        slotAvailable =
+                            case requestedRole of
+                                Player1 ->
+                                    room.player1 == Nothing
+
+                                Player2 ->
+                                    room.player2 == Nothing
+                    in
+                    if slotAvailable then
                         let
                             newRoom =
-                                { room | player1 = Just clientId }
+                                case requestedRole of
+                                    Player1 ->
+                                        { room | player1 = Just clientId }
+
+                                    Player2 ->
+                                        { room | player2 = Just clientId }
+
+                            bothPlayersPresent =
+                                newRoom.player1 /= Nothing && newRoom.player2 /= Nothing
 
                             updatedRoom =
-                                if newRoom.player2 /= Nothing then
+                                if bothPlayersPresent then
                                     { newRoom | gameState = Playing }
 
                                 else
                                     newRoom
 
+                            otherPlayer =
+                                case requestedRole of
+                                    Player1 ->
+                                        updatedRoom.player2
+
+                                    Player2 ->
+                                        updatedRoom.player1
+
                             cmds =
                                 if updatedRoom.gameState == Playing then
                                     Cmd.batch
-                                        [ sendToFrontend clientId (RoomJoined roomCode Player1)
+                                        [ sendToFrontend clientId (RoomJoined (String.toUpper roomCode) requestedRole)
                                         , sendToFrontend clientId (GameStateUpdate updatedRoom.gameState updatedRoom.currentPuzzle updatedRoom.puzzleStates)
-                                        , case updatedRoom.player2 of
-                                            Just p2 ->
-                                                sendToFrontend p2 (GameStateUpdate updatedRoom.gameState updatedRoom.currentPuzzle updatedRoom.puzzleStates)
+                                        , case otherPlayer of
+                                            Just other ->
+                                                sendToFrontend other (GameStateUpdate updatedRoom.gameState updatedRoom.currentPuzzle updatedRoom.puzzleStates)
 
                                             Nothing ->
                                                 Cmd.none
                                         ]
 
                                 else
-                                    sendToFrontend clientId (RoomJoined roomCode Player1)
+                                    sendToFrontend clientId (RoomJoined (String.toUpper roomCode) requestedRole)
                         in
-                        ( { model | rooms = Dict.insert roomCode updatedRoom model.rooms }, cmds )
-
-                    else if room.player2 == Nothing then
-                        let
-                            newRoom =
-                                { room | player2 = Just clientId, gameState = Playing }
-
-                            cmds =
-                                Cmd.batch
-                                    [ sendToFrontend clientId (RoomJoined roomCode Player2)
-                                    , sendToFrontend clientId (GameStateUpdate newRoom.gameState newRoom.currentPuzzle newRoom.puzzleStates)
-                                    , case newRoom.player1 of
-                                        Just p1 ->
-                                            sendToFrontend p1 (GameStateUpdate newRoom.gameState newRoom.currentPuzzle newRoom.puzzleStates)
-
-                                        Nothing ->
-                                            Cmd.none
-                                    ]
-                        in
-                        ( { model | rooms = Dict.insert roomCode newRoom model.rooms }, cmds )
+                        ( { model | rooms = Dict.insert (String.toUpper roomCode) updatedRoom model.rooms }, cmds )
 
                     else
-                        ( model, sendToFrontend clientId (RoomError "Room is full") )
+                        ( model, sendToFrontend clientId (RoomError "Ce role est deja pris dans cette salle !") )
 
         PlayerAction action ->
             handlePlayerAction clientId action model

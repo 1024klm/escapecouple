@@ -157,7 +157,8 @@ type alias FrontendModel =
     , page : Page
     , roomCode : String
     , roomCodeInput : String
-    , playerRole : Maybe PlayerRole
+    , selectedRole : Maybe PlayerRole -- Role chosen by user
+    , playerRole : Maybe PlayerRole -- Role assigned by server
     , gameState : Maybe GameState
     , currentPuzzle : Int
     , puzzleStates : Maybe PuzzleStates
@@ -168,7 +169,8 @@ type alias FrontendModel =
 
 
 type Page
-    = HomePage
+    = RoleSelectionPage
+    | HomePage
     | WaitingRoom
     | GameRoom
     | VictoryPage
@@ -194,6 +196,9 @@ type FrontendMsg
     = UrlClicked Browser.UrlRequest
     | UrlChanged Lamdera.Url
     | NoOpFrontendMsg
+    -- Role selection
+    | SelectRole PlayerRole
+    | BackToRoleSelection
     -- Home page
     | CreateRoomClicked
     | JoinRoomClicked
@@ -224,8 +229,8 @@ type BackendMsg
 
 
 type ToBackend
-    = CreateRoom
-    | JoinRoom RoomCode
+    = CreateRoom PlayerRole
+    | JoinRoom RoomCode PlayerRole
     | PlayerAction PlayerAction
     | RequestNextPuzzle
     | RequestResetPuzzle

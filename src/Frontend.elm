@@ -24,9 +24,10 @@ app =
 init : Lamdera.Url -> Lamdera.Key -> ( FrontendModel, Cmd FrontendMsg )
 init _ key =
     ( { key = key
-      , page = HomePage
+      , page = RoleSelectionPage
       , roomCode = ""
       , roomCodeInput = ""
+      , selectedRole = Nothing
       , playerRole = Nothing
       , gameState = Nothing
       , currentPuzzle = 1
@@ -41,10 +42,25 @@ init _ key =
 
 view : FrontendModel -> Browser.Document FrontendMsg
 view model =
+    let
+        roleClass =
+            case model.selectedRole of
+                Just Player1 ->
+                    "role-player1"
+
+                Just Player2 ->
+                    "role-player2"
+
+                Nothing ->
+                    ""
+    in
     { title = "Escape Together"
     , body =
-        [ div [ class "app" ]
+        [ div [ class ("app " ++ roleClass) ]
             [ case model.page of
+                RoleSelectionPage ->
+                    viewRoleSelection model
+
                 HomePage ->
                     viewHomePage model
 
@@ -61,10 +77,65 @@ view model =
     }
 
 
+viewRoleSelection : FrontendModel -> Html FrontendMsg
+viewRoleSelection _ =
+    div [ class "role-selection-page" ]
+        [ div [ class "role-header" ]
+            [ h1 [] [ text "ESCAPE TOGETHER" ]
+            , p [] [ text "Choisissez votre role" ]
+            ]
+        , div [ class "role-cards" ]
+            [ div [ class "role-card role-card-1", onClick (SelectRole Player1) ]
+                [ div [ class "role-icon" ] [ text "🔍" ]
+                , h2 [] [ text "JOUEUR 1" ]
+                , h3 [] [ text "L'Observateur" ]
+                , ul [ class "role-abilities" ]
+                    [ li [] [ text "Voit les symboles colores" ]
+                    , li [] [ text "Controle le personnage" ]
+                    , li [] [ text "Coupe les fils" ]
+                    , li [] [ text "Voit le message crypte" ]
+                    , li [] [ text "Actionne les interrupteurs" ]
+                    ]
+                , div [ class "role-motto" ] [ text "\"Je vois, tu guides\"" ]
+                ]
+            , div [ class "role-card role-card-2", onClick (SelectRole Player2) ]
+                [ div [ class "role-icon" ] [ text "📖" ]
+                , h2 [] [ text "JOUEUR 2" ]
+                , h3 [] [ text "Le Stratege" ]
+                , ul [ class "role-abilities" ]
+                    [ li [] [ text "Connait la legende" ]
+                    , li [] [ text "Voit les pieges" ]
+                    , li [] [ text "Connait l'ordre de coupe" ]
+                    , li [] [ text "Possede la cle de dechiffrement" ]
+                    , li [] [ text "Voit l'objectif lumineux" ]
+                    ]
+                , div [ class "role-motto" ] [ text "\"Tu agis, je guide\"" ]
+                ]
+            ]
+        ]
+
+
 viewHomePage : FrontendModel -> Html FrontendMsg
 viewHomePage model =
+    let
+        ( roleName, roleIcon ) =
+            case model.selectedRole of
+                Just Player1 ->
+                    ( "L'Observateur", "🔍" )
+
+                Just Player2 ->
+                    ( "Le Stratege", "📖" )
+
+                Nothing ->
+                    ( "", "" )
+    in
     div [ class "home-page" ]
-        [ div [ class "logo" ]
+        [ div [ class "selected-role-banner" ]
+            [ span [ class "role-icon-small" ] [ text roleIcon ]
+            , span [] [ text roleName ]
+            , button [ class "btn-change-role", onClick BackToRoleSelection ] [ text "Changer" ]
+            ]
+        , div [ class "logo" ]
             [ h1 [] [ text "ESCAPE" ]
             , h2 [] [ text "TOGETHER" ]
             ]
@@ -92,13 +163,27 @@ viewHomePage model =
             Nothing ->
                 text ""
         , div [ class "instructions" ]
-            [ h3 [] [ text "Comment jouer ?" ]
-            , ul []
-                [ li [] [ text "Un joueur cree la partie et partage le code" ]
-                , li [] [ text "Le second joueur rejoint avec ce code" ]
-                , li [] [ text "Chaque joueur voit des informations DIFFERENTES" ]
-                , li [] [ text "Communiquez pour resoudre les enigmes ensemble !" ]
-                ]
+            [ h3 [] [ text "Votre mission" ]
+            , case model.selectedRole of
+                Just Player1 ->
+                    ul []
+                        [ li [] [ text "Vous VOYEZ les elements interactifs" ]
+                        , li [] [ text "Vous AGISSEZ sur le jeu" ]
+                        , li [] [ text "Decrivez ce que vous voyez a votre partenaire" ]
+                        , li [] [ text "Suivez ses instructions pour reussir !" ]
+                        ]
+
+                Just Player2 ->
+                    ul []
+                        [ li [] [ text "Vous avez les INFORMATIONS cruciales" ]
+                        , li [] [ text "Vous GUIDEZ votre partenaire" ]
+                        , li [] [ text "Ecoutez ses descriptions attentivement" ]
+                        , li [] [ text "Donnez-lui les bonnes instructions !" ]
+                        ]
+
+                Nothing ->
+                    ul []
+                        [ li [] [ text "Choisissez d'abord votre role" ] ]
             ]
         ]
 
@@ -793,15 +878,31 @@ update msg model =
         NoOpFrontendMsg ->
             ( model, Cmd.none )
 
+        SelectRole role ->
+            ( { model | selectedRole = Just role, page = HomePage }, Cmd.none )
+
+        BackToRoleSelection ->
+            ( { model | page = RoleSelectionPage }, Cmd.none )
+
         CreateRoomClicked ->
-            ( { model | error = Nothing }, Lamdera.sendToBackend CreateRoom )
+            case model.selectedRole of
+                Just role ->
+                    ( { model | error = Nothing }, Lamdera.sendToBackend (CreateRoom role) )
+
+                Nothing ->
+                    ( { model | error = Just "Choisissez d'abord un role" }, Cmd.none )
 
         JoinRoomClicked ->
-            if String.length model.roomCodeInput >= 4 then
-                ( { model | error = Nothing }, Lamdera.sendToBackend (JoinRoom model.roomCodeInput) )
+            case model.selectedRole of
+                Just role ->
+                    if String.length model.roomCodeInput >= 4 then
+                        ( { model | error = Nothing }, Lamdera.sendToBackend (JoinRoom model.roomCodeInput role) )
 
-            else
-                ( { model | error = Just "Entrez un code de 4 caracteres" }, Cmd.none )
+                    else
+                        ( { model | error = Just "Entrez un code de 4 caracteres" }, Cmd.none )
+
+                Nothing ->
+                    ( { model | error = Just "Choisissez d'abord un role" }, Cmd.none )
 
         RoomCodeInputChanged input ->
             ( { model | roomCodeInput = String.toUpper input }, Cmd.none )
@@ -835,8 +936,9 @@ update msg model =
 
         LeaveRoom ->
             ( { model
-                | page = HomePage
+                | page = RoleSelectionPage
                 , roomCode = ""
+                , selectedRole = Nothing
                 , playerRole = Nothing
                 , gameState = Nothing
                 , puzzleStates = Nothing
