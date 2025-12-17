@@ -9,11 +9,16 @@ import Lamdera
 import Types exposing (..)
 
 
+cssVersion : String
+cssVersion =
+    "2"
+
+
 cssLink : Html msg
 cssLink =
     node "link"
         [ rel "stylesheet"
-        , href "/style.css"
+        , href ("/style.css?v=" ++ cssVersion)
         ]
         []
 
