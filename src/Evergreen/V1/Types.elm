@@ -6,7 +6,8 @@ import Lamdera
 
 
 type Page
-    = HomePage
+    = RoleSelectionPage
+    | HomePage
     | WaitingRoom
     | GameRoom
     | VictoryPage
@@ -124,6 +125,7 @@ type alias FrontendModel =
     , page : Page
     , roomCode : String
     , roomCodeInput : String
+    , selectedRole : Maybe PlayerRole
     , playerRole : Maybe PlayerRole
     , gameState : Maybe GameState
     , currentPuzzle : Int
@@ -166,6 +168,8 @@ type FrontendMsg
     = UrlClicked Browser.UrlRequest
     | UrlChanged Lamdera.Url
     | NoOpFrontendMsg
+    | SelectRole PlayerRole
+    | BackToRoleSelection
     | CreateRoomClicked
     | JoinRoomClicked
     | RoomCodeInputChanged String
@@ -190,8 +194,8 @@ type PlayerAction
 
 
 type ToBackend
-    = CreateRoom
-    | JoinRoom RoomCode
+    = CreateRoom PlayerRole
+    | JoinRoom RoomCode PlayerRole
     | PlayerAction PlayerAction
     | RequestNextPuzzle
     | RequestResetPuzzle
