@@ -9,6 +9,15 @@ import Lamdera
 import Types exposing (..)
 
 
+cssLink : Html msg
+cssLink =
+    node "link"
+        [ rel "stylesheet"
+        , href "/style.css"
+        ]
+        []
+
+
 app =
     Lamdera.frontend
         { init = init
@@ -56,7 +65,8 @@ view model =
     in
     { title = "Escape Together"
     , body =
-        [ div [ class ("app " ++ roleClass) ]
+        [ cssLink
+        , div [ class ("app " ++ roleClass) ]
             [ case model.page of
                 RoleSelectionPage ->
                     viewRoleSelection model
